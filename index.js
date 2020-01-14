@@ -5,6 +5,7 @@ const loaderUtils = require('loader-utils')
 module.exports = function(content) {
 
   const options = loaderUtils.getOptions(this) || {};
+  var compiled;
 
   //If rootDir is configured then omit it from the template name
   const rootDir = options['rootDir'] ? `${path.normalize(options['rootDir'])}${path.sep}` : '';
@@ -29,7 +30,11 @@ module.exports = function(content) {
     .split(path.sep)
     .reverse()[0];
 
-  const compiled = dust.compile(content, name);
+  if (this.resourcePath.includes('/partials/')) {
+  	compiled = dust.compile(content, name);
+  } else {
+  	compiled = dust.compile(content, 'dust-' + name);
+  }
 
   return "module.exports = " + compiled;
 };
