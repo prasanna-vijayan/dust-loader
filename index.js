@@ -27,7 +27,7 @@ module.exports = function(content) {
     .replace(context + path.sep + rootDir, '')
     .replace('.dust', '')
     .split(path.sep)
-    .join('/');
+    .reverse()[0];
 
   const compiled = dust.compile(content, name);
 
